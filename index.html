@@ -16,22 +16,17 @@
     	two.play();
 
 		var target = CreateDot(two, playArea, 'red');
+		target = CreateTarget(target, playArea);
 
     	var dots = [];
     	for(var i = 0; i < 100; i ++){
     		var dot = CreateDot(two, playArea);
-    		var bee = Bee(dot);
+    		var bee = CreateBee(dot);
     		dots.push(bee);
     	}
 
-		var angle = 0;
     	two.bind('update', function () {
-    		angle++;
-
-			// move target in a lovely circle (Thanks James)
-			var radians = (angle * Math.PI / 180); // convert degrees to radians
-			target.translation.x = playArea.width  / 2 + (Math.cos(radians) * 100);
-			target.translation.y = playArea.height / 2 + (Math.sin(radians) * 100);
+    		target.update();
 
 			for(var i = 0; i < dots.length; i++) {
 				var pos = dots[i].update(target);		
@@ -39,7 +34,7 @@
     	});
 
 
-    	function CreateDot(two, playArea, colour){
+    	function CreateDot(two, playArea, colour) {
 			var x = Random(1, 100),
 				y = Random(1, 100),
 				size = 2;
@@ -50,29 +45,45 @@
 	    	return dot;
     	}
 
-    	function Bee(dot){
-			var update = function(targetDot) {
-				var pos = dot.translation,
-					target = targetDot.translation;
-
-				if(pos.x < target.x)
-					pos.x++;
-				if(pos.x > target.x)
-					pos.x--;
-
-				if(pos.y < target.y)
-					pos.y++;
-				if(pos.y > target.y)
-					pos.y--;		
-			};
+    	function CreateBee(dot) {
+    		var pos = dot.translation;
 
     		return {
 				dot: dot,
-				update: update
+				update: update = function(targetDot) {
+					var target = targetDot.translation;
+
+					if(pos.x < target.x)
+						pos.x++;
+					if(pos.x > target.x)
+						pos.x--;
+
+					if(pos.y < target.y)
+						pos.y++;
+					if(pos.y > target.y)
+						pos.y--;		
+				}
     		};
     	}
 
-    	function Random(min, max){
+    	function CreateTarget(dot, playArea) {
+			var degrees = 0,
+				pos = dot.translation;
+
+    		return {
+				translation: dot.translation,
+				update: function(){
+					degrees++;
+
+					// move target in a lovely circle (Thanks James)
+					var radians = (degrees * Math.PI / 180); // convert degrees to radians
+					pos.x = playArea.width  / 2 + (Math.cos(radians) * 100);
+					pos.y = playArea.height / 2 + (Math.sin(radians) * 100);
+				}
+    		};
+    	}
+
+    	function Random(min, max) {
     		return Math.floor((Math.random() * max) + min);
     	}
     </script>
