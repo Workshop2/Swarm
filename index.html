@@ -1,0 +1,80 @@
+<html>
+<head>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="js/two.js"></script>
+</head> 
+<body>
+	<div id="canvas" style="background: black"></div>
+	<script type="text/javascript">
+        var elem = document.getElementById('canvas');
+        var playArea = {
+            width: 1200,
+            height: 480
+        };
+
+        var two = new Two(playArea).appendTo(elem);
+    	two.play();
+
+		var target = CreateDot(two, playArea, 'red');
+
+    	var dots = [];
+    	for(var i = 0; i < 100; i ++){
+    		var dot = CreateDot(two, playArea);
+    		var bee = Bee(dot);
+    		dots.push(bee);
+    	}
+
+		var angle = 0;
+    	two.bind('update', function () {
+    		angle++;
+
+			// move target in a lovely circle (Thanks James)
+			var radians = (angle * Math.PI / 180); // convert degrees to radians
+			target.translation.x = playArea.width  / 2 + (Math.cos(radians) * 100);
+			target.translation.y = playArea.height / 2 + (Math.sin(radians) * 100);
+
+			for(var i = 0; i < dots.length; i++) {
+				var pos = dots[i].update(target);		
+			}
+    	});
+
+
+    	function CreateDot(two, playArea, colour){
+			var x = Random(1, 100),
+				y = Random(1, 100),
+				size = 2;
+
+	    	var dot = two.makeCircle(x, y, size);
+	    	dot.fill = colour || 'yellow';
+
+	    	return dot;
+    	}
+
+    	function Bee(dot){
+			var update = function(targetDot) {
+				var pos = dot.translation,
+					target = targetDot.translation;
+
+				if(pos.x < target.x)
+					pos.x++;
+				if(pos.x > target.x)
+					pos.x--;
+
+				if(pos.y < target.y)
+					pos.y++;
+				if(pos.y > target.y)
+					pos.y--;		
+			};
+
+    		return {
+				dot: dot,
+				update: update
+    		};
+    	}
+
+    	function Random(min, max){
+    		return Math.floor((Math.random() * max) + min);
+    	}
+    </script>
+</body>
+</html>
