@@ -21,7 +21,7 @@
     	var dots = [];
     	for(var i = 0; i < 100; i ++){
     		var dot = CreateDot(two, playArea);
-    		var bee = CreateBee(dot);
+    		var bee = CreateBee(dot, playArea);
     		dots.push(bee);
     	}
 
@@ -33,10 +33,9 @@
 			}
     	});
 
-
     	function CreateDot(two, playArea, colour) {
-			var x = Random(1, playArea.width),
-				y = Random(1, playArea.height),
+			var x = 0,//(playArea.width / 2) - 50 + Random(1, 150),
+				y = 0,//(playArea.height /2) - 50 + Random(1, 100),
 				size = 2;
 
 	    	var dot = two.makeCircle(x, y, size);
@@ -45,11 +44,20 @@
 	    	return dot;
     	}
 
-    	function CreateBee(dot) {
+    	function GetRandomPosition(playArea) {
+    		var degrees = Random(1, 360);
+    		var radians = ToRadians(degrees);
+    		var radius = Random(1, 100);
+			var x = playArea.width  / 2 + (Math.cos(radians) * radius);
+			var y = playArea.height / 2 + (Math.sin(radians) * radius);
+
+			return { x: x, y: y };
+    	}
+
+    	function CreateBee(dot, playArea) {
     		var velocity = {x: 0.0, y:0.0},
     			acceleration = {x: 0.0, y:0.0},
-    			position = {x: dot.translation.x, y: dot.translation.y};    			
-
+    			position = GetRandomPosition(playArea);    			
 
     		return {
 				dot: dot,
@@ -60,7 +68,7 @@
 					var dy = target.y - position.y;
 					var distance = Math.sqrt((dx * dx) + (dy * dy));
 
-					var accelerationRate = distance * 0.000001;
+					var accelerationRate = distance * 0.00004;
 					acceleration.x = dx * accelerationRate;
 					acceleration.y = dy * accelerationRate;
 
