@@ -9,7 +9,7 @@
         var elem = document.getElementById('canvas');
         var playArea = {
             width: 1200,
-            height: 480
+            height: 800
         };
 
         var two = new Two(playArea).appendTo(elem);
@@ -18,18 +18,38 @@
 		var targeDot = CreateDot(two, 'red');
 		var target = CreateTarget(targeDot, playArea);
 
-    	var dots = [];
+    	var bees = [];
     	for(var i = 0; i < 64; i ++){
     		var dot = CreateDot(two);
     		var bee = CreateBee(dot, playArea);
-    		dots.push(bee);
+    		bees.push(bee);
     	}
 
     	two.bind('update', function () {
     		target.update();
 
-			for(var i = 0; i < dots.length; i++) {
-				var pos = dots[i].update(target);		
+    		// get closest bee
+    		var leader = null;
+			for(var i = 0; i < bees.length; i++) {
+				var bee = bees[i];
+				var current = {
+					bee: bee,
+					distance: GetDistance(DistanceTo(bee.dot.translation, target.translation))
+				};
+
+				if(leader == null || current.distance < leader.distance) {
+					leader = current;
+				}
+			}
+
+
+			for(var i = 0; i < bees.length; i++) {
+				var bee = bees[i];
+
+				//if(bee == leader)
+					bee.update(target);
+				//else		
+				//	bee.update({ translation: leader.bee.dot.translation });
 			}
     	});
 
@@ -57,23 +77,26 @@
     	function CreateBee(dot, playArea) {
     		var velocity = {x: 0.0, y:0.0},
     			acceleration = {x: 0.0, y:0.0},
-    			position = GetRandomPosition(playArea);    			
+    			position = GetRandomPosition(playArea),
+    			velocityClamp = 8;    			
 
     		return {
 				dot: dot,
 				update: function(targetDot) {
 					var target = targetDot.translation;
 
-					var dx = target.x - position.x;
-					var dy = target.y - position.y;
-					var distance = Math.sqrt((dx * dx) + (dy * dy));
+					var d = DistanceTo(position, target);
+					var distance = GetDistance(d);
 
 					var accelerationRate = distance * 0.00004;
-					acceleration.x = dx * accelerationRate;
-					acceleration.y = dy * accelerationRate;
+					acceleration.x = d.x * accelerationRate;
+					acceleration.y = d.y * accelerationRate;
 
 					velocity.x = velocity.x + acceleration.x;
 					velocity.y = velocity.y + acceleration.y;
+
+					velocity.x = Clamp(velocity.x, velocityClamp);
+					velocity.y = Clamp(velocity.y, velocityClamp);
 
 					position.x += velocity.x;
 					position.y += velocity.y;
@@ -92,8 +115,8 @@
 
 					// move target in a lovely circle (Thanks James)
 					var radians = ToRadians(degrees); // convert degrees to radians
-					pos.x = playArea.width  / 2 + (Math.cos(radians) * 100);
-					pos.y = playArea.height / 2 + (Math.sin(radians) * 50);
+					pos.x = playArea.width  / 2 + (Math.cos(radians) * 200);
+					pos.y = playArea.height / 2 + (Math.sin(radians) * 200);
 				}
     		};
     	}
@@ -112,6 +135,26 @@
 
     	function GetRadiansBetween(self, target) {
 			return ToRadians(GetAngleBetween(self, target));
+    	}
+
+    	function DistanceTo(self, target) {
+			return { 
+				x: target.x - self.x,
+				y: target.y - self.y
+			};
+    	}
+
+    	function GetDistance(distanceBetween) {
+    		return Math.sqrt((distanceBetween.x * distanceBetween.x) + (distanceBetween.y * distanceBetween.y));
+    	}
+
+    	function Clamp(value, limit) {
+    		if(value > limit)
+    			value = limit;
+    		if(value < -limit)
+    			value = -limit;
+
+    		return value;
     	}
     </script>
 </body>
