@@ -8,8 +8,8 @@
 	<script type="text/javascript">
         var elem = document.getElementById('canvas');
         var playArea = {
-            width: 1200,
-            height: 800
+            width: $(window).width() - 30,
+            height: $(window).height() - 30
         };
 
         var two = new Two(playArea).appendTo(elem);
@@ -115,8 +115,8 @@
 
 					// move target in a lovely circle (Thanks James)
 					var radians = ToRadians(degrees); // convert degrees to radians
-					pos.x = playArea.width  / 2 + (Math.cos(radians) * 200);
-					pos.y = playArea.height / 2 + (Math.sin(radians) * 200);
+					pos.x = playArea.width  / 2 + (Math.cos(radians) * 100);
+					pos.y = playArea.height / 2 + (Math.sin(radians) * 100);
 				}
     		};
     	}
