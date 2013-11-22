@@ -35,8 +35,8 @@
 
 
     	function CreateDot(two, playArea, colour) {
-			var x = Random(1, 100),
-				y = Random(1, 100),
+			var x = Random(1, playArea.width),
+				y = Random(1, playArea.height),
 				size = 2;
 
 	    	var dot = two.makeCircle(x, y, size);
@@ -46,28 +46,31 @@
     	}
 
     	function CreateBee(dot) {
-    		var pos = dot.translation;/*,
-				movementEntity = { x: dot.translation.x, y: dot.translation.y },
-				movementVariables = { velocityX: 0.4, velocityY: 0.4 };
+    		var velocity = {x: 0.0, y:0.0},
+    			acceleration = {x: 0.0, y:0.0},
+    			position = {x: dot.translation.x, y: dot.translation.y};
 
-			var movement = new SpaceMovement(movementEntity, movementVariables);*/
 
     		return {
 				dot: dot,
 				update: function(targetDot) {
 					var target = targetDot.translation;
 
-					if(pos.x < target.x)
-						pos.x++;
-					if(pos.x > target.x)
-						pos.x--;
+					var x = target.x - position.x;
+					x *= 0.001;
+					acceleration.x = x;
 
-					if(pos.y < target.y)
-						pos.y++;
-					if(pos.y > target.y)
-						pos.y--;
+					var y = target.y - position.y;
+					y *= 0.001;
+					acceleration.y = y;
 
-					//movement.update();	
+					velocity.x = velocity.x + acceleration.x;
+					velocity.y = velocity.y + acceleration.y;
+
+					position.x += velocity.x;
+					position.y += velocity.y;
+
+					dot.translation.set(position.x, position.y);
 				}
     		};
     	}
@@ -81,8 +84,8 @@
 
 					// move target in a lovely circle (Thanks James)
 					var radians = ToRadians(degrees); // convert degrees to radians
-					pos.x = playArea.width  / 2 + (Math.cos(radians) * 100);
-					pos.y = playArea.height / 2 + (Math.sin(radians) * 100);
+					pos.x = playArea.width  / 2 + (Math.cos(radians) * 300);
+					pos.y = playArea.height / 2 + (Math.sin(radians) * 200);
 				}
     		};
     	}
