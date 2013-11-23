@@ -44,14 +44,17 @@
 				}
 			}
 
-
 			for(var i = 0; i < bees.length; i++) {
 				var bee = bees[i];
 
-				//if(bee == leader)
-					bee.update(target);
-				//else		
-				//	bee.update({ translation: leader.bee.dot.translation });
+				if(bee == leader.bee){
+					bee.update(target/*, {fill: 'white', scale: 3}*/);
+				}
+				//else
+				//	bee.update(target);
+
+				else		
+					bee.update({ translation: leader.bee.dot.translation });
 			}
 
 			fps.Count();
@@ -84,11 +87,13 @@
     			position = GetRandomPosition(playArea),
     			velocityClamp = 8,
     			accelerationClamp = 0.5,
-    			rf = RandomFloat(0.00002, 0.00009);    			
+    			rf = RandomFloat(0.00002, 0.00009),
+    			initialFill = dot.fill,
+    			initialLineWidth = dot.linewidth;    			
 
     		return {
 				dot: dot,
-				update: function(targetDot) {
+				update: function(targetDot, settings) {
 					var target = targetDot.translation;
 
 					var d = DistanceTo(position, target);
@@ -111,6 +116,15 @@
 					position.y += velocity.y;
 
 					dot.translation.set(position.x, position.y);
+
+					if(settings != null){
+						dot.fill = settings.fill;
+						dot.scale = settings.scale;
+					}
+					else{
+						dot.fill = initialFill;
+						dot.scale = 1;
+					}
 				}
     		};
     	}
@@ -123,7 +137,7 @@
 					degrees++;
 
 					// move target in a lovely circle (Thanks James)
-					var radians = ToRadians(degrees / 3); // convert degrees to radians
+					var radians = ToRadians(degrees); // convert degrees to radians
 					pos.x = playArea.width  / 2 + (Math.cos(radians) * (playArea.width  / 3));
 					pos.y = playArea.height / 2 + (Math.sin(radians) * (playArea.height / 3));
 				}
