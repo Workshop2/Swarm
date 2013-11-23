@@ -10,8 +10,10 @@
 <body>
 	<div id="canvas" style="background: black"></div>
 	<script type="text/javascript">
-		var debug = urlParam("debug") != 0;
-		var indicator = debug ? {fill: 'white', scale: 3} : null;
+		var debug = urlParam("debug") != 0,
+			cool = urlParam("cool") != 0,
+		 	indicator = debug ? {fill: 'white', scale: 3} : null;
+
         var elem = document.getElementById('canvas');
         var playArea = {
             width: $(window).width() - 30,
@@ -150,8 +152,12 @@
 					else
 						degrees--;
 
+					var speedModifier = 2;
+					if(cool === true)
+						speedModifier = Random(1, 2); // simulates multiple targets to confuse the swarm
+
 					// move target in a lovely circle (Thanks James)
-					var radians = ToRadians(degrees); // convert degrees to radians
+					var radians = ToRadians(degrees / speedModifier); // convert degrees to radians
 					pos.x = playArea.width  / 2 + (Math.cos(radians) * (playArea.width  / 3));
 					pos.y = playArea.height / 2 + (Math.sin(radians) * (playArea.height / 3));
 
