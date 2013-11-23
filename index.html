@@ -12,7 +12,8 @@
 	<script type="text/javascript">
 		var debug = urlParam("debug") != 0,
 			cool = urlParam("cool") != 0,
-		 	indicator = debug ? {fill: 'white', scale: 3} : null;
+		 	indicator = debug ? {fill: 'white', scale: 3} : null,
+		 	defaultSpeed = urlParam("speed") || 2;
 
         var elem = document.getElementById('canvas');
         var playArea = {
@@ -152,7 +153,7 @@
 					else
 						degrees--;
 
-					var speedModifier = 2;
+					var speedModifier = defaultSpeed;
 					if(cool === true)
 						speedModifier = Random(1, 2); // simulates multiple targets to confuse the swarm
 
