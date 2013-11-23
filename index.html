@@ -2,6 +2,7 @@
 <head>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript" src="js/two.js"></script>
+	<script type="text/javascript" src="js/fps.js"></script>
 </head> 
 <body>
 	<div id="canvas" style="background: black"></div>
@@ -9,7 +10,7 @@
         var elem = document.getElementById('canvas');
         var playArea = {
             width: $(window).width() - 30,
-            height: $(window).height() - 30
+            height: $(window).height() - 50
         };
 
         var two = new Two(playArea).appendTo(elem);
@@ -20,7 +21,8 @@
 
     	var bees = [];
     	for(var i = 0; i < 64; i ++){
-    		var dot = CreateDot(two);
+    		var colour = i % 3 == 0 ? '#20B2AA' : '#00FF33';
+    		var dot = CreateDot(two, colour);
     		var bee = CreateBee(dot, playArea);
     		bees.push(bee);
     	}
@@ -51,6 +53,8 @@
 				//else		
 				//	bee.update({ translation: leader.bee.dot.translation });
 			}
+
+			fps.Count();
     	});
 
     	function CreateDot(two, colour) {
