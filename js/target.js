@@ -5,7 +5,7 @@ function Target(dot, playArea, utils, systemParameters) {
 
 
 	var update = function() {
-		var speedModifier = getSpeedModifier();
+		var speedModifier = systemParameters.defaultSpeed;
 
 		// move target in a lovely circle (Thanks James)
 		var radians = utils.toRadians(degrees / speedModifier); // convert degrees to radians
@@ -25,14 +25,6 @@ function Target(dot, playArea, utils, systemParameters) {
 			clockwise = false;
 		if(degrees < 0)
 			clockwise = true; 
-	};
-
-	var getSpeedModifier = function() {
-		var speedModifier = systemParameters.defaultSpeed;
-		if(systemParameters.cool === true)
-			speedModifier = utils.randomInt(1, 2); // simulates multiple targets to confuse the swarm
-
-		return speedModifier;
 	};
 
 	return {
