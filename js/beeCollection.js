@@ -3,7 +3,7 @@ function BeeCollection(two, playArea, utils, systemParameters) {
 	var bees = [];
 	
 	var spawnBee = function() {
-		var colour = i % 3 == 0 ? '#20B2AA' : '#00FF33';
+		var colour = i % 3 == 0 ? systemParameters.beeAltColour : systemParameters.beeColour;
 		var dot = utils.createDot(two, colour);
 		var bee = new Bee(dot, playArea, utils, systemParameters);
 		bees.push(bee);

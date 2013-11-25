@@ -3,13 +3,17 @@ function SystemParameters(utils) {
 		cool = utils.urlParam("cool") != 0,
 	 	indicator = debug ? {fill: 'white', scale: 3} : null,
 	 	defaultSpeed = utils.urlParam("speed") || 2,
-	 	bees = utils.urlParam("bees") || 64;
+	 	bees = utils.urlParam("bees") || 64,
+	 	beeColour = '#00FF33',
+	 	beeAltColour = '#20B2AA';
 
  	return {
  		debug: debug,
  		cool: cool,
  		indicator: indicator,
  		defaultSpeed: defaultSpeed,
- 		bees: bees
+ 		bees: bees,
+ 		beeColour: beeColour,
+ 		beeAltColour: beeAltColour
  	}
 }

@@ -7,7 +7,8 @@
 	<script type="text/javascript" src="js/bee.js"></script>
 	<script type="text/javascript" src="js/systemParameters.js"></script>
 	<script type="text/javascript" src="js/target.js"></script>
-	<script type="text/javascript" src="js/beeCollection.js"></script>
+    <script type="text/javascript" src="js/beeCollection.js"></script>
+    <script type="text/javascript" src="js/targetCollection.js"></script>
 </head> 
 <body>
 	<div id="canvas" style="background: black"></div>
@@ -26,7 +27,10 @@
 
     	var beeCollection = new BeeCollection(two, playArea, utils, systemParameters),
 		 	targeDot = utils.createDot(two, 'red'),
-		 	target = new Target(targeDot, playArea, utils, systemParameters);
+		 	target = new Target(targeDot, playArea, utils, systemParameters),
+            targetCollection = new TargetCollection(two, playArea, utils, systemParameters);
+
+        targetCollection.spawnTarget();
 
     	for(var i = 0; i < systemParameters.bees; i ++) {
     		beeCollection.spawnBee();
@@ -34,6 +38,7 @@
 
     	two.bind('update', function () {
     		target.update();
+            targetCollection.update();
     		beeCollection.update(target);
 
 			fps.Count();
