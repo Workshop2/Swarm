@@ -33,10 +33,10 @@ function Bee(dot, playArea, utils, systemParameters) {
 
 		dot.translation.set(position.x, position.y);
 
-		updateLeaderState();
+		updateLeaderState(settings);
 	};
 
-	var updateLeaderState = function() {
+	var updateLeaderState = function(settings) {
 		if(systemParameters.debug === true) {
 			if(settings != null){
 				dot.fill = settings.fill;
