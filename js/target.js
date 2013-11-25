@@ -1,5 +1,5 @@
 function Target(dot, playArea, utils, systemParameters) {
-	var clockwise = true,
+	var clockwise = utils.randomInt(0, 2) == 0,
 		degrees = utils.randomInt(1, 360),
 		pos = dot.translation;
 
