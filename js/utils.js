@@ -59,10 +59,11 @@ function Utils() {
 		return { x: x, y: y };
 	}
 	
-	var createDot = function(two, colour) {
+	var createDot = function(two, colour, size) {
 		var x = -5,
-			y = -5,
-			size = 2;
+			y = -5;
+
+		size = size || 2;
 
     	var dot = two.makeCircle(x, y, size);
     	dot.fill = colour || 'yellow';

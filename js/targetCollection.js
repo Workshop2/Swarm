@@ -3,7 +3,7 @@ function TargetCollection(two, playArea, utils, systemParameters) {
 	var targets = [];
 
 	var spawnTarget = function() {
-		var targeDot = utils.createDot(two, 'red');
+		var targeDot = utils.createDot(two, 'red', 3);
 		var target = new Target(targeDot, playArea, utils, systemParameters);
 		targets.push(target);
 	};
