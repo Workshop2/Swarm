@@ -13,8 +13,9 @@ function BeeCollection(two, playArea, utils, systemParameters) {
 		// get closest bee
 		var leader = null;
 		for(var i = 0; i < bees.length; i++) {
-			var bee = bees[i];
-			var distanceTo = utils.distanceTo(bee.dot.translation, target.translation);
+			var bee = bees[i],
+				distanceTo = utils.distanceTo(bee.dot.translation, target.translation);
+				
 			var current = {
 				bee: bee,
 				distance: utils.getDistance(distanceTo)
@@ -32,7 +33,7 @@ function BeeCollection(two, playArea, utils, systemParameters) {
 				bee.update(target, systemParameters.indicator);
 			}
 			else		
-				bee.update({ translation: leader.bee.dot.translation });
+				bee.update(leader.bee.dot);
 		}
 	};
 

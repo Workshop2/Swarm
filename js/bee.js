@@ -1,7 +1,7 @@
 function Bee(dot, playArea, utils, systemParameters) {
 
-	var velocity = {x: 0.0, y:0.0},
-    			acceleration = {x: 0.0, y:0.0},
+	var velocity = {x: 0.0, y: 0.0},
+    			acceleration = {x: 0.0, y: 0.0},
     			position = utils.getRandomPosition(playArea),
     			velocityClamp = 8,
     			accelerationClamp = 0.5,
@@ -33,6 +33,10 @@ function Bee(dot, playArea, utils, systemParameters) {
 
 		dot.translation.set(position.x, position.y);
 
+		updateLeaderState();
+	};
+
+	var updateLeaderState = function() {
 		if(systemParameters.debug === true) {
 			if(settings != null){
 				dot.fill = settings.fill;

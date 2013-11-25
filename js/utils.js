@@ -60,8 +60,8 @@ function Utils() {
 	}
 	
 	var createDot = function(two, colour) {
-		var x = 0,
-			y = 0,
+		var x = -5,
+			y = -5,
 			size = 2;
 
     	var dot = two.makeCircle(x, y, size);
