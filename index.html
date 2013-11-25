@@ -26,20 +26,22 @@
     	two.play();
 
     	var beeCollection = new BeeCollection(two, playArea, utils, systemParameters),
-		 	targeDot = utils.createDot(two, 'red'),
-		 	target = new Target(targeDot, playArea, utils, systemParameters),
+		 	//targeDot = utils.createDot(two, 'red'),
+		 	//target = new Target(targeDot, playArea, utils, systemParameters),
             targetCollection = new TargetCollection(two, playArea, utils, systemParameters);
 
-        targetCollection.spawnTarget();
+        for (var i = 0; i < systemParameters.targets; i++) {
+            targetCollection.spawnTarget();
+        };
 
     	for(var i = 0; i < systemParameters.bees; i ++) {
     		beeCollection.spawnBee();
     	}
 
     	two.bind('update', function () {
-    		target.update();
+    		//target.update();
             targetCollection.update();
-    		beeCollection.update(target);
+    		beeCollection.update(targetCollection.targets);
 
 			fps.Count();
     	});

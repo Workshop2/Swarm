@@ -15,6 +15,7 @@ function TargetCollection(two, playArea, utils, systemParameters) {
 
 	return {
 		update: update,
-		spawnTarget: spawnTarget
+		spawnTarget: spawnTarget,
+		targets: targets
 	};
 }

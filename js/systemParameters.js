@@ -5,7 +5,8 @@ function SystemParameters(utils) {
 	 	defaultSpeed = utils.urlParam("speed") || 2,
 	 	bees = utils.urlParam("bees") || 64,
 	 	beeColour = '#00FF33',
-	 	beeAltColour = '#20B2AA';
+	 	beeAltColour = '#20B2AA',
+	 	targets = utils.urlParam("targets") || 2;
 
  	return {
  		debug: debug,
@@ -14,6 +15,7 @@ function SystemParameters(utils) {
  		defaultSpeed: defaultSpeed,
  		bees: bees,
  		beeColour: beeColour,
- 		beeAltColour: beeAltColour
+ 		beeAltColour: beeAltColour,
+ 		targets: targets
  	}
 }
