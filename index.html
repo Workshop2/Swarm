@@ -6,14 +6,17 @@
 	<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript" src="js/two.js"></script>
 	<script type="text/javascript" src="js/fps.js"></script>
+	<script type="text/javascript" src="js/utils.js"></script>
+	<script type="text/javascript" src="js/bee.js"></script>
+	<script type="text/javascript" src="js/systemParameters.js"></script>
+	<script type="text/javascript" src="js/target.js"></script>
+	<script type="text/javascript" src="js/beeCollection.js"></script>
 </head> 
 <body>
 	<div id="canvas" style="background: black"></div>
 	<script type="text/javascript">
-		var debug = urlParam("debug") != 0,
-			cool = urlParam("cool") != 0,
-		 	indicator = debug ? {fill: 'white', scale: 3} : null,
-		 	defaultSpeed = urlParam("speed") || 2;
+		var utils = new Utils(),
+			systemParameters = new SystemParameters(utils);
 
         var elem = document.getElementById('canvas');
         var playArea = {
@@ -24,200 +27,20 @@
         var two = new Two(playArea).appendTo(elem);
     	two.play();
 
-		var targeDot = CreateDot(two, 'red');
-		var target = CreateTarget(targeDot, playArea);
+    	var beeCollection = new BeeCollection(two, playArea, utils, systemParameters),
+		 	targeDot = utils.createDot(two, 'red'),
+		 	target = new Target(targeDot, playArea, utils, systemParameters);
 
-    	var bees = [];
-    	for(var i = 0; i < 64; i ++){
-    		var colour = i % 3 == 0 ? '#20B2AA' : '#00FF33';
-    		var dot = CreateDot(two, colour);
-    		var bee = CreateBee(dot, playArea);
-    		bees.push(bee);
+    	for(var i = 0; i < 64; i ++) {
+    		beeCollection.spawnBee();
     	}
 
     	two.bind('update', function () {
     		target.update();
-
-    		// get closest bee
-    		var leader = null;
-			for(var i = 0; i < bees.length; i++) {
-				var bee = bees[i];
-				var current = {
-					bee: bee,
-					distance: GetDistance(DistanceTo(bee.dot.translation, target.translation))
-				};
-
-				if(leader == null || current.distance < leader.distance) {
-					leader = current;
-				}
-			}
-
-			for(var i = 0; i < bees.length; i++) {
-				var bee = bees[i];
-
-				if(bee == leader.bee){
-					bee.update(target, indicator);
-				}
-				//else
-				//	bee.update(target);
-
-				else		
-					bee.update({ translation: leader.bee.dot.translation });
-			}
+    		beeCollection.update(target);
 
 			fps.Count();
     	});
-
-    	function CreateDot(two, colour) {
-			var x = 0,
-				y = 0,
-				size = 2;
-
-	    	var dot = two.makeCircle(x, y, size);
-	    	dot.fill = colour || 'yellow';
-
-	    	return dot;
-    	}
-
-    	function GetRandomPosition(playArea) {
-    		var degrees = Random(1, 360);
-    		var radians = ToRadians(degrees);
-    		var radius = Random(1, 300);
-			var x = playArea.width  / 2 + (Math.cos(radians) * radius);
-			var y = playArea.height / 2 + (Math.sin(radians) * radius);
-
-			return { x: x, y: y };
-    	}
-
-    	function CreateBee(dot, playArea) {
-    		var velocity = {x: 0.0, y:0.0},
-    			acceleration = {x: 0.0, y:0.0},
-    			position = GetRandomPosition(playArea),
-    			velocityClamp = 8,
-    			accelerationClamp = 0.5,
-    			rf = RandomFloat(0.00002, 0.00009),
-    			initialFill = dot.fill,
-    			initialLineWidth = dot.linewidth;    			
-
-    		return {
-				dot: dot,
-				update: function(targetDot, settings) {
-					var target = targetDot.translation;
-
-					var d = DistanceTo(position, target);
-					var distance = GetDistance(d);
-
-					var accelerationRate = distance * rf;
-					acceleration.x = d.x * accelerationRate;
-					acceleration.y = d.y * accelerationRate;
-
-					acceleration.x = Clamp(acceleration.x, accelerationClamp);
-					acceleration.y = Clamp(acceleration.y, accelerationClamp);
-
-					velocity.x = velocity.x + acceleration.x;
-					velocity.y = velocity.y + acceleration.y;
-
-					velocity.x = Clamp(velocity.x, velocityClamp);
-					velocity.y = Clamp(velocity.y, velocityClamp);
-
-					position.x += velocity.x;
-					position.y += velocity.y;
-
-					dot.translation.set(position.x, position.y);
-
-					if(debug === true) {
-						if(settings != null){
-							dot.fill = settings.fill;
-							dot.scale = settings.scale;
-						}
-						else{
-							if(dot.scale != 1) {
-								dot.fill = initialFill;
-								dot.scale = 1;
-							}
-						}
-					}
-				}
-    		};
-    	}
-
-    	function CreateTarget(dot, playArea) {
-    		var clockwise = true;
-
-			return {
-				translation: pos = dot.translation,
-				degrees: degrees = Random(1, 360),
-				update: function(){
-					if(clockwise)
-						degrees++;
-					else
-						degrees--;
-
-					var speedModifier = defaultSpeed;
-					if(cool === true)
-						speedModifier = Random(1, 2); // simulates multiple targets to confuse the swarm
-
-					// move target in a lovely circle (Thanks James)
-					var radians = ToRadians(degrees / speedModifier); // convert degrees to radians
-					pos.x = playArea.width  / 2 + (Math.cos(radians) * (playArea.width  / 3));
-					pos.y = playArea.height / 2 + (Math.sin(radians) * (playArea.height / 3));
-
-					if(degrees > 720)
-						clockwise = false;
-					if(degrees < 0)
-						clockwise = true; 
-				}
-    		};
-    	}
-
-    	function Random(min, max) {
-    		return Math.floor(RandomFloat(min, max));
-    	}
-
-    	function RandomFloat(min, max) {
-    		return (Math.random() * max) + min;
-    	}
-
-    	function ToRadians(degrees) {
-    		return degrees * Math.PI / 180;
-    	}
-
-    	function GetAngleBetween(self, target) {
-			return Math.atan2(target.y - self.y, target.x - self.x);
-    	}
-
-    	function GetRadiansBetween(self, target) {
-			return ToRadians(GetAngleBetween(self, target));
-    	}
-
-    	function DistanceTo(self, target) {
-			return { 
-				x: target.x - self.x,
-				y: target.y - self.y
-			};
-    	}
-
-    	function GetDistance(distanceBetween) {
-    		return Math.sqrt((distanceBetween.x * distanceBetween.x) + (distanceBetween.y * distanceBetween.y));
-    	}
-
-    	function Clamp(value, limit) {
-    		if(value > limit)
-    			value = limit;
-    		if(value < -limit)
-    			value = -limit;
-
-    		return value;
-    	}
-
-    	function urlParam(name) {
-		    var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
-		    if (!results)
-		    { 
-		        return 0; 
-		    }
-		    return results[1] || 0;
-		}
     </script>
 </body>
 </html>
