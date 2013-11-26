@@ -8,7 +8,8 @@ function SystemParameters(utils) {
 	 	targets = parseFloat(utils.urlParam("targets") || 3),
 	 	targetColour = 'red',
 	 	velocityClamp = parseFloat(utils.urlParam("vc") || 8),
-	 	accelerationClamp = parseFloat(utils.urlParam("ac") || 0.5);
+	 	accelerationClamp = parseFloat(utils.urlParam("ac") || 0.5),
+	 	frameThrottle = (utils.urlParam("ft") || 1) == 1;
 
  	return {
  		debug: debug,
@@ -20,6 +21,7 @@ function SystemParameters(utils) {
  		targets: targets,
  		targetColour: targetColour,
  		velocityClamp: velocityClamp,
- 		accelerationClamp: accelerationClamp
+ 		accelerationClamp: accelerationClamp,
+ 		frameThrottle: frameThrottle
  	}
 }

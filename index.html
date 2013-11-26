@@ -23,7 +23,6 @@
         };
 
         var two = new Two(playArea).appendTo(elem);
-    	two.play();
 
     	var beeCollection = new BeeCollection(two, playArea, utils, systemParameters),
             targetCollection = new TargetCollection(two, playArea, utils, systemParameters);
@@ -42,6 +41,12 @@
 
 			fps.Count();
     	});
+
+        if(systemParameters.frameThrottle) {
+            two.play();
+        } else {
+            setInterval(function () { two.update(); }, 0);   
+        }
     </script>
 </body>
 </html>
