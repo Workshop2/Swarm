@@ -3,8 +3,6 @@ function Bee(dot, playArea, utils, systemParameters) {
 	var velocity = {x: 0.0, y: 0.0},
     			acceleration = {x: 0.0, y: 0.0},
     			position = utils.getRandomPosition(playArea),
-    			velocityClamp = 8,
-    			accelerationClamp = 0.5,
     			rf = utils.randomFloat(0.00002, 0.00009),
     			initialFill = dot.fill,
     			initialLineWidth = dot.linewidth;   
@@ -19,14 +17,14 @@ function Bee(dot, playArea, utils, systemParameters) {
 		acceleration.x = d.x * accelerationRate;
 		acceleration.y = d.y * accelerationRate;
 
-		acceleration.x = utils.clamp(acceleration.x, accelerationClamp);
-		acceleration.y = utils.clamp(acceleration.y, accelerationClamp);
+		acceleration.x = utils.clamp(acceleration.x, systemParameters.accelerationClamp);
+		acceleration.y = utils.clamp(acceleration.y, systemParameters.accelerationClamp);
 
 		velocity.x = velocity.x + acceleration.x;
 		velocity.y = velocity.y + acceleration.y;
 
-		velocity.x = utils.clamp(velocity.x, velocityClamp);
-		velocity.y = utils.clamp(velocity.y, velocityClamp);
+		velocity.x = utils.clamp(velocity.x, systemParameters.velocityClamp);
+		velocity.y = utils.clamp(velocity.y, systemParameters.velocityClamp);
 
 		position.x += velocity.x;
 		position.y += velocity.y;
