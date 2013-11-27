@@ -36,6 +36,11 @@ function TargetCollection(two, playArea, utils, systemParameters) {
 				if(beeTarget == null || distance < beeTarget.distance) {
 					beeTarget = { target: target, distance: distance, id: j };
 				}
+				else if(distance == beeTarget.distance) { 
+					// if they are the same, pick a random one
+					var rnd = utils.randomInt(0, 1);
+					beeTarget = rnd == 0 ? beeTarget : { target: target, distance: distance, id: j };
+				}
 			};
 
 			if(beeTarget != null)
