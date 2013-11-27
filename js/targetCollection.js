@@ -11,7 +11,7 @@ function TargetCollection(two, playArea, utils, systemParameters) {
 	var update = function() {
 		for (var i = targets.length - 1; i >= 0; i--) {
 			targets[i].update();
-		}
+		};
 	};
 
 	return {

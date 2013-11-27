@@ -29,7 +29,7 @@ function BeeCollection(two, playArea, utils, systemParameters) {
 				if(leader == null || current.distance < leader.distance) {
 					leader = current;
 				}
-			}
+			};
 
 			for (var i = targetGroup.bees.length - 1; i >= 0; i--) {
 				var bee = targetGroup.bees[i];
@@ -39,9 +39,8 @@ function BeeCollection(two, playArea, utils, systemParameters) {
 				}
 				else		
 					bee.update(leader.bee.dot);
-			}
-
-		};		
+			};
+		};
 	};
 
 	// will return a list of grouped targets and children
@@ -51,8 +50,9 @@ function BeeCollection(two, playArea, utils, systemParameters) {
 		// turn target collection into a wrapped target with children
 		for (var i = targetCollection.length - 1; i >= 0; i--) {
 			targetGroups.push({ target: targetCollection[i], bees: [] });
-		}
+		};
 
+		// assign a bee to a target group
 		for (var i = bees.length - 1; i >= 0; i--) {
 			var bee = bees[i];
 			var evalTargets = [];
@@ -63,7 +63,7 @@ function BeeCollection(two, playArea, utils, systemParameters) {
 					distanceTo = utils.distanceTo(bee.dot.translation, target.translation);
 
 				evalTargets.push({target: target, distance: utils.getDistance(distanceTo) })
-			}
+			};
 
 			var beeTarget = null;
 			for (var k = evalTargets.length - 1; k >= 0; k--) {
@@ -71,7 +71,7 @@ function BeeCollection(two, playArea, utils, systemParameters) {
 				if(beeTarget == null || evalTarget.distance < beeTarget.distance) {
 					beeTarget = evalTarget;
 				}
-			}
+			};
 
 			for (var l = targetGroups.length - 1; l >= 0; l--) {
 				var targetGroup = targetGroups[l];
@@ -79,8 +79,8 @@ function BeeCollection(two, playArea, utils, systemParameters) {
 					targetGroup.bees.push(bee);
 					break;
 				}
-			}
-		}
+			};
+		};
 
 		return targetGroups;
 	};

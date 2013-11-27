@@ -33,7 +33,7 @@
 
     	for(var i = 0; i < systemParameters.bees; i ++) {
     		beeCollection.spawnBee();
-    	}
+    	};
 
     	two.bind('update', function () {
             targetCollection.update();
@@ -45,6 +45,8 @@
         if(systemParameters.frameThrottle) {
             two.play();
         } else {
+            // will run the game as fast as possible.
+            // used for debugging perf
             setInterval(function () { two.update(); }, 0);   
         }
     </script>

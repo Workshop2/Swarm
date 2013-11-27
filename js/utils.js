@@ -1,11 +1,12 @@
 function Utils() {
 	
 	var randomInt = function(min, max) {
-		return Math.floor(randomFloat(min, max));
+		return Math.round(randomFloat(min, max));
 	}
 
 	var randomFloat = function(min, max) {
-		return (Math.random() * max) + min;
+		return (Math.random() * (max - min) + min).toFixed(5);
+		//return (Math.random() * max) + min;
 	}
 
 	var toRadians = function(degrees) {
