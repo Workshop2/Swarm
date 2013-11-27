@@ -13,29 +13,16 @@ function BeeCollection(two, playArea, utils, systemParameters) {
 		var targetGroups = targetCollection.groupBees(bees);
 
 		for (var x = targetGroups.length - 1; x >= 0; x--) {
-			var targetGroup = targetGroups[x];
+			var target = targetGroups[x].target,
+				groupedBees = targetGroups[x].bees;
 
-			// find closest bee to target e.g. the leader
-			var leader = null;
-			for (var i = targetGroup.bees.length - 1; i >= 0; i--) {
-				var bee = targetGroup.bees[i],
-					distanceTo = utils.distanceTo(bee.dot.translation, targetGroup.target.translation);
-					
-				var current = {
-					bee: bee,
-					distance: utils.getDistance(distanceTo)
-				};
+			var leader = target.findLeader(groupedBees);
 
-				if(leader == null || current.distance < leader.distance) {
-					leader = current;
-				}
-			};
-
-			for (var i = targetGroup.bees.length - 1; i >= 0; i--) {
-				var bee = targetGroup.bees[i];
+			for (var i = groupedBees.length - 1; i >= 0; i--) {
+				var bee = groupedBees[i];
 
 				if(bee == leader.bee) {
-					bee.update(targetGroup.target, systemParameters.indicator);
+					bee.update(target, systemParameters.indicator);
 				} else {
 					bee.update(leader.bee.dot);
 				}
