@@ -72,6 +72,13 @@ function Utils() {
     	return dot;
 	};
 
+	var diffuse = function(value, differential) {
+		var min = 1 - differential,
+			max = 1 + differential;
+
+		return value * randomFloat(min, max);		
+	};
+
 	return {
 		randomInt: randomInt,
 		randomFloat: randomFloat,
@@ -83,6 +90,7 @@ function Utils() {
 		clamp: clamp,
 		urlParam: urlParam,
 		getRandomPosition: getRandomPosition,
-		createDot: createDot
+		createDot: createDot,
+		diffuse: diffuse
 	};
 }
