@@ -7,10 +7,9 @@ function SystemParameters(utils) {
 	 	beeAltColour = '#20B2AA',
 	 	targets = parseFloat(utils.urlParam("targets") || 4),
 	 	targetColour = 'red',
-	 	velocityClamp = parseFloat(utils.urlParam("vc") || 8),
-	 	accelerationClamp = parseFloat(utils.urlParam("ac") || 0.5),
-	 	frameThrottle = (utils.urlParam("ft") || 1) == 1,
-	 	perfTests = (utils.urlParam("pt") || 0) == 1;
+	 	velocityClamp = parseFloat(utils.urlParam("vc") || 9),
+	 	accelerationClamp = parseFloat(utils.urlParam("ac") || 0.6),
+	 	frameThrottle = (utils.urlParam("ft") || 1) == 1;
 
  	return {
  		debug: debug,
@@ -23,7 +22,6 @@ function SystemParameters(utils) {
  		targetColour: targetColour,
  		velocityClamp: velocityClamp,
  		accelerationClamp: accelerationClamp,
- 		frameThrottle: frameThrottle,
- 		perfTests: perfTests
+ 		frameThrottle: frameThrottle
  	}
 }

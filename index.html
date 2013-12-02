@@ -9,6 +9,13 @@
 	<script type="text/javascript" src="js/target.js"></script>
     <script type="text/javascript" src="js/beeCollection.js"></script>
     <script type="text/javascript" src="js/targetCollection.js"></script>
+
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+    </style>
 </head> 
 <body>
 	<div id="canvas" style="background: black"></div>
@@ -18,8 +25,8 @@
 
         var elem = document.getElementById('canvas');
         var playArea = {
-            width: $(window).width() - 30,
-            height: $(window).height() - 50
+            width: $(window).width() - 20,
+            height: $(window).height() - 40
         };
 
         var two = new Two(playArea).appendTo(elem);
