@@ -11,6 +11,8 @@ Query Parameters
 
 The demo found above also has the option of passing in query parameters to manipulate the demo.
 
+Example usage: http://swarmy.azurewebsites.net/?debug=1&speed=1&bees=64&targets=4&vc=9&ac=0.6&ft=1
+
 - debug
     - boolean (1 OR 0)
     - Shows the current leader of the pack in white
