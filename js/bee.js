@@ -1,58 +1,55 @@
-function Bee(dot, playArea, utils, systemParameters) {
+function Bee(doty, playArea, utils, systemParameters) {
 
-	var velocity = { x: 0.0, y: 0.0 },
-		acceleration = { x: 0.0, y: 0.0 },
-		position = utils.getRandomPosition(playArea),
-		rf = utils.randomFloat(0.00002, 0.00009),
-		initialFill = dot.fill,
-		initialLineWidth = dot.linewidth,
-		accelerationClamp = utils.diffuse(systemParameters.accelerationClamp, 0.15),
-		velocityClamp = utils.diffuse(systemParameters.velocityClamp, 0.15);   
+	this.dot = doty;
+	this.velocity = { x: 0.0, y: 0.0 };;
+	this.acceleration = { x: 0.0, y: 0.0 };
+	this.position = utils.getRandomPosition(playArea);
+	this.rf = utils.randomFloat(0.00002, 0.00009);
+	this.initialFill = doty.fill;
+	this.initialLineWidth = doty.linewidth;
+	this.accelerationClamp = utils.diffuse(systemParameters.accelerationClamp, 0.15);
+	this.velocityClamp = utils.diffuse(systemParameters.velocityClamp, 0.15);   
 
-	var update = function(targetDot, settings) {
-		var target = targetDot.translation;
+}
 
-		var d = utils.distanceTo(position, target);
-		var distance = utils.getDistance(d);
+Bee.prototype.update = function(targetDot, colour) {
+	var target = targetDot.translation;
 
-		var accelerationRate = distance * rf;
-		acceleration.x = d.x * accelerationRate;
-		acceleration.y = d.y * accelerationRate;
+	var d = utils.distanceTo(this.position, target);
+	var distance = utils.getDistance(d);
 
-		acceleration.x = utils.clamp(acceleration.x, accelerationClamp);
-		acceleration.y = utils.clamp(acceleration.y, accelerationClamp);
+	var accelerationRate = distance * this.rf;
+	this.acceleration.x = d.x * accelerationRate;
+	this.acceleration.y = d.y * accelerationRate;
 
-		velocity.x = velocity.x + acceleration.x;
-		velocity.y = velocity.y + acceleration.y;
+	this.acceleration.x = utils.clamp(this.acceleration.x, this.accelerationClamp);
+	this.acceleration.y = utils.clamp(this.acceleration.y, this.accelerationClamp);
 
-		velocity.x = utils.clamp(velocity.x, velocityClamp);
-		velocity.y = utils.clamp(velocity.y, velocityClamp);
+	this.velocity.x = this.velocity.x + this.acceleration.x;
+	this.velocity.y = this.velocity.y + this.acceleration.y;
 
-		position.x += velocity.x;
-		position.y += velocity.y;
+	this.velocity.x = utils.clamp(this.velocity.x, this.velocityClamp);
+	this.velocity.y = utils.clamp(this.velocity.y, this.velocityClamp);
 
-		dot.translation.set(position.x, position.y);
+	this.position.x += this.velocity.x;
+	this.position.y += this.velocity.y;
 
-		updateLeaderState(settings);
-	};
+	this.dot.translation.set(this.position.x, this.position.y);
 
-	var updateLeaderState = function(settings) {
-		if(systemParameters.debug === true) {
-			if(settings != null){
-				dot.fill = settings.fill;
-				dot.scale = settings.scale;
-			}
-			else{
-				if(dot.scale != 1) {
-					dot.fill = initialFill;
-					dot.scale = 1;
-				}
+	this.updateLeaderState(colour);
+};
+
+Bee.prototype.updateLeaderState = function(colour) {
+	if(systemParameters.debug === true) {
+		if(colour != null){
+			this.dot.fill = colour.fill;
+			this.dot.scale = colour.scale;
+		}
+		else{
+			if(this.dot.scale != 1) {
+				this.dot.fill = this.initialFill;
+				this.dot.scale = 1;
 			}
 		}
-	};
-
-	return {
-		dot: dot,
-		update: update
-	};
-}
+	}
+};
