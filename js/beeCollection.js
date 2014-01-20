@@ -22,7 +22,7 @@ function BeeCollection(two, playArea, utils, systemParameters) {
 				var bee = groupedBees[i];
 
 				if(bee == leader.bee) {
-					bee.update(target, systemParameters);
+					bee.update(target, systemParameters.indicator);
 				} else {
 					bee.update(leader.bee.dot);
 				}
