@@ -1,15 +1,35 @@
-function Bee(dot, playArea, utils, systemParameters) {
+function Bee(doty, playArea, utils, systemParameters) {
 
-	var velocity = { x: 0.0, y: 0.0 },
-		acceleration = { x: 0.0, y: 0.0 },
-		position = utils.getRandomPosition(playArea),
-		rf = utils.randomFloat(0.00002, 0.00009),
-		initialFill = dot.fill,
-		initialLineWidth = dot.linewidth,
-		accelerationClamp = utils.diffuse(systemParameters.accelerationClamp, 0.15),
-		velocityClamp = utils.diffuse(systemParameters.velocityClamp, 0.15);   
+	acceleration = { x: 0.0, y: 0.0 };
+	accelerationClamp = utils.diffuse(systemParameters.accelerationClamp, 0.15);
 
-	var update = function(targetDot, settings) {
+	rf = utils.randomFloat(0.00002, 0.00009);
+	position = utils.getRandomPosition(playArea);
+
+	velocity = { x: 0.0, y: 0.0 };
+	velocityClamp = utils.diffuse(systemParameters.velocityClamp, 0.15)
+
+	dot = doty;
+	initialFill = dot.fill;
+	initialLineWidth = dot.linewidth;
+
+	return {
+		dot: dot,
+		update: this.update
+	};
+}
+
+Bee.prototype = {
+	acceleration: null,
+	accelerationClamp: null,
+	rf: null,
+	position: null,
+	velocity: null,
+	velocityClamp: null,
+	dot: null,
+	initialFill: null,
+	initialLineWidth: null,
+	update: function(targetDot, systemParameters) {
 		var target = targetDot.translation;
 
 		var d = utils.distanceTo(position, target);
@@ -33,14 +53,13 @@ function Bee(dot, playArea, utils, systemParameters) {
 
 		dot.translation.set(position.x, position.y);
 
-		updateLeaderState(settings);
-	};
-
-	var updateLeaderState = function(settings) {
+		updateLeaderState(systemParameters);
+	},
+	updateLeaderState: function(systemParameters) {
 		if(systemParameters.debug === true) {
-			if(settings != null){
-				dot.fill = settings.fill;
-				dot.scale = settings.scale;
+			if(systemParameters != null){
+				dot.fill = systemParameters.fill;
+				dot.scale = systemParameters.scale;
 			}
 			else{
 				if(dot.scale != 1) {
@@ -49,10 +68,5 @@ function Bee(dot, playArea, utils, systemParameters) {
 				}
 			}
 		}
-	};
-
-	return {
-		dot: dot,
-		update: update
-	};
-}
+	}
+};
