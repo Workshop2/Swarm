@@ -31,6 +31,7 @@ function BeeCollection(two, playArea, utils, systemParameters) {
 
 	return {
 		spawnBee: spawnBee,
-		update: update
+		update: update,
+		bees: bees
 	};
 }

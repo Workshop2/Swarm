@@ -48,7 +48,7 @@
     	two.bind('update', function () {
             targetCollection.update();
 
-            var targetGroups = targetCollection.groupBees(bees);
+            var targetGroups = targetCollection.groupBees(beeCollection.bees);
     		beeCollection.update(targetGroups);
 
 			fps.Count();
