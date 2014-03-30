@@ -17,6 +17,11 @@
             background-color: black;
             color: white;
         }
+
+        #canvas {
+            height: 90%;
+            width: 90%;
+        }
     </style>
 </head> 
 <body>
@@ -46,11 +51,19 @@
     		beeCollection.spawnBee();
     	};
 
+        var _groupCache = null,
+            _groupCacheCount = 0;
+
     	two.bind('update', function () {
             targetCollection.update();
 
-            var targetGroups = targetCollection.groupBees(beeCollection.bees);
-    		beeCollection.update(targetGroups);
+            if(_groupCache == null || _groupCacheCount > systemParameters.cacheLoops) {
+                _groupCache = targetCollection.groupBees(beeCollection.bees);
+                _groupCacheCount = 0;
+            }
+
+    		beeCollection.update(_groupCache);
+            _groupCacheCount++;
 
 			fps.Count();
     	});

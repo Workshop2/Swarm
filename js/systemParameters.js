@@ -10,7 +10,8 @@ function SystemParameters(utils) {
 	 	mouseTargetColour = 'yellow',
 	 	velocityClamp = parseFloat(utils.urlParam("vc") || 9),
 	 	accelerationClamp = parseFloat(utils.urlParam("ac") || 0.6),
-	 	frameThrottle = (utils.urlParam("ft") || 1) == 1;
+	 	frameThrottle = (utils.urlParam("ft") || 1) == 1,
+	 	cacheLoops = parseInt(utils.urlParam("cl") || 2);
 
  	return {
  		debug: debug,
@@ -24,6 +25,7 @@ function SystemParameters(utils) {
  		mouseTargetColour: mouseTargetColour,
  		velocityClamp: velocityClamp,
  		accelerationClamp: accelerationClamp,
- 		frameThrottle: frameThrottle
+ 		frameThrottle: frameThrottle,
+ 		cacheLoops: cacheLoops
  	}
 }
