@@ -25,7 +25,7 @@ function TargetCollection(two, playArea, utils, systemParameters) {
 
 		// turn target collection into a wrapped target with children
 		for (var i = targets.length - 1; i >= 0; i--) {
-			targetGroups.push({ target: targets[i], bees: [] });
+			targetGroups.push(new TargetGroup(targets[i], utils));
 		};
 
 		// assign a bee to a target group
@@ -51,7 +51,7 @@ function TargetCollection(two, playArea, utils, systemParameters) {
 			};
 
 			if(beeTarget != null) {
-				targetGroups[beeTarget.id].bees.push(bee);
+				targetGroups[beeTarget.id].addBee(bee);
 			}
 		};
 
