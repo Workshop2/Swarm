@@ -33,7 +33,8 @@ function TargetCollection(two, playArea, utils, systemParameters) {
 			var bee = bees[i];
 
 			var beeTarget = null;
-			// builds a list of distances between all available targets
+
+			// works out closest target for each bee and adds the bee to that target's group
 			for (var j = targetGroups.length - 1; j >= 0; j--) {
 				var target = targetGroups[j].target,
 					distanceTo = utils.distanceTo(bee.dot.translation, target.translation),
@@ -49,8 +50,9 @@ function TargetCollection(two, playArea, utils, systemParameters) {
 				}
 			};
 
-			if(beeTarget != null)
+			if(beeTarget != null) {
 				targetGroups[beeTarget.id].bees.push(bee);
+			}
 		};
 
 		return targetGroups;

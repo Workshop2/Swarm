@@ -9,9 +9,8 @@ function BeeCollection(two, playArea, utils, systemParameters) {
 		bees.push(bee);
 	};
 
-	var update = function(targetCollection) {
-		var targetGroups = targetCollection.groupBees(bees);
-
+	var update = function(targetGroups) {
+		// for each group, detect the leader and update bees
 		for (var x = targetGroups.length - 1; x >= 0; x--) {
 			var target = targetGroups[x].target,
 				groupedBees = targetGroups[x].bees;
