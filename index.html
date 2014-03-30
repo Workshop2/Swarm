@@ -6,7 +6,8 @@
 	<script type="text/javascript" src="js/utils.js"></script>
 	<script type="text/javascript" src="js/bee.js"></script>
 	<script type="text/javascript" src="js/systemParameters.js"></script>
-	<script type="text/javascript" src="js/target.js"></script>
+    <script type="text/javascript" src="js/target.js"></script>
+    <script type="text/javascript" src="js/mouseTarget.js"></script>
     <script type="text/javascript" src="js/beeCollection.js"></script>
     <script type="text/javascript" src="js/targetCollection.js"></script>
 
@@ -33,6 +34,8 @@
 
     	var beeCollection = new BeeCollection(two, playArea, utils, systemParameters),
             targetCollection = new TargetCollection(two, playArea, utils, systemParameters);
+
+        targetCollection.spawnMouseTarget();
 
         for (var i = 0; i < systemParameters.targets; i++) {
             targetCollection.spawnTarget();

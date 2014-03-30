@@ -8,6 +8,12 @@ function TargetCollection(two, playArea, utils, systemParameters) {
 		targets.push(target);
 	};
 
+	var spawnMouseTarget = function() {
+		var targeDot = utils.createDot(two, systemParameters.mouseTargetColour, 3);
+		var target = new MouseTarget(targeDot, playArea, utils, systemParameters);
+		targets.push(target);
+	};
+
 	var update = function() {
 		for (var i = targets.length - 1; i >= 0; i--) {
 			targets[i].update();
@@ -54,6 +60,7 @@ function TargetCollection(two, playArea, utils, systemParameters) {
 		update: update,
 		spawnTarget: spawnTarget,
 		targets: targets,
-		groupBees: groupBees
+		groupBees: groupBees,
+		spawnMouseTarget: spawnMouseTarget
 	};
 }
