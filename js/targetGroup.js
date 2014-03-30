@@ -6,6 +6,7 @@ function TargetGroup(target, utils) {
 	var addBee = function(bee) {
 		bees.push(bee);
 
+		// works out the current leader while bees are being added to the array
 		var distance = utils.getDistance(utils.distanceTo(bee.dot.translation, target.translation));			
 		if(leader.bee == null || distance < leader.distance) {
 			leader.bee = bee;
