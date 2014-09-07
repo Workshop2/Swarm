@@ -11,6 +11,7 @@
     <script type="text/javascript" src="js/targetGroup.js"></script>
     <script type="text/javascript" src="js/beeCollection.js"></script>
     <script type="text/javascript" src="js/targetCollection.js"></script>
+    <script type="text/javascript" src="js/targetGroupCache.js"></script>
 
     <style>
         body {
@@ -51,19 +52,13 @@
     		beeCollection.spawnBee();
     	};
 
-        var _groupCache = null,
-            _groupCacheCount = 0;
+        var targetGroupCache = new TargetGroupCache(targetCollection, systemParameters);
 
     	two.bind('update', function () {
             targetCollection.update();
 
-            if(_groupCache == null || _groupCacheCount > systemParameters.cacheLoops) {
-                _groupCache = targetCollection.groupBees(beeCollection.bees);
-                _groupCacheCount = 0;
-            }
-
-    		beeCollection.update(_groupCache);
-            _groupCacheCount++;
+            var groupedBees = targetGroupCache.getGroup(beeCollection.bees);
+    		beeCollection.update(groupedBees);
 
 			fps.Count();
     	});

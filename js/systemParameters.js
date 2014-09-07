@@ -11,7 +11,7 @@ function SystemParameters(utils) {
 	 	velocityClamp = parseFloat(utils.urlParam("vc") || 9),
 	 	accelerationClamp = parseFloat(utils.urlParam("ac") || 0.6),
 	 	frameThrottle = (utils.urlParam("ft") || 1) == 1,
-	 	cacheLoops = parseInt(utils.urlParam("cl") || 2);
+	 	cacheLoops = parseInt(utils.urlParam("cl") || 5);
 
  	return {
  		debug: debug,

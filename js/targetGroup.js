@@ -14,7 +14,7 @@ function TargetGroup(target, utils) {
 		}
 	};
 
-	var getLeader = function(){
+	var getLeader = function() {
 		return leader.bee;
 	};
 

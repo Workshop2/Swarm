@@ -17,30 +17,8 @@ function MouseTarget(dot, playArea, utils, systemParameters) {
         mouseY = event.clientY;
     }
 
-	var findLeader = function(bees) {
-		// find closest bee to target e.g. the leader
-		var leader = null;
-
-		for (var i = bees.length - 1; i >= 0; i--) {
-			var bee = bees[i],
-				distanceTo = utils.distanceTo(bee.dot.translation, pos);
-				
-			var current = {
-				bee: bee,
-				distance: utils.getDistance(distanceTo)
-			};
-
-			if(leader == null || current.distance < leader.distance) {
-				leader = current;
-			}
-		};
-
-		return leader;
-	};
-
 	return {
 		translation: pos,
-		update: update,
-		findLeader: findLeader
+		update: update
 	};
 }
